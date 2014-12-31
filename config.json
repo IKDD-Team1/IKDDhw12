@@ -1,0 +1,15 @@
+{
+  "database" : {
+    "dbtype" : "postgresql",
+    "dbname" : "",
+    "username" : "nhi",
+    "host" : "localhost",
+    "encoding" : "utf8",
+    "password" : ""
+   },
+   "data": {
+    "folder_path": "./data/"
+   },
+   "table": "rainfall"
+}
+
