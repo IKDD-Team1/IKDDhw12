@@ -8,13 +8,14 @@ from modules import csv_io
 from modules import json_io
 from db.MyDB import MyDB
 
-def to_foramt(data):
+def to_foramt(data, date):
     new_data = []
     for i in range(1, len(data)):
         row = data[i]
-        geom = "ST_GeomFromText('POINT(%s %s)', 4326)" % \
+        if row[-1][:10].replace('-', '') == date:
+            geom = "ST_GeomFromText('POINT(%s %s)', 4326)" % \
                                     (row[4].decode('utf-8'), row[5].decode('utf-8'))
-        new_data.append([row[0].decode('utf-8'), geom, row[6].decode('utf-8')])
+            new_data.append([row[0].decode('utf-8'), geom, row[6].decode('utf-8')])
 
     return new_data
 
@@ -31,7 +32,7 @@ if __name__=='__main__':
         for f in files:
             if f != '.DS_Store':
                 dataset = csv_io.read_csv(root+f)
-                data = to_foramt(dataset)
+                data = to_foramt(dataset, f[11:19])
                 for item in data:
                     mydb.insert(table_name, ['siteid', 'geom', 'rainfall10min'], item)
     mydb.close()
